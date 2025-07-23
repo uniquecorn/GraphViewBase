@@ -100,19 +100,22 @@ namespace GraphViewBase {
         #region Drag Events
 
         [EventInterest(typeof(DragOfferEvent))]
+#if UNITY_6000_0_OR_NEWER
+        protected override void HandleEventBubbleUp(EventBase evt) {
+            base.HandleEventBubbleUp(evt);
+#else
         protected override void ExecuteDefaultActionAtTarget(EventBase evt) {
             base.ExecuteDefaultActionAtTarget(evt);
+#endif
             if (evt.eventTypeId == DragOfferEvent.TypeId()) { OnDragOffer((DragOfferEvent)evt); }
         }
 
         private void OnDragOffer(DragOfferEvent e) {
-
             if (Graph != null && Graph.IsViewDrag(e)) {
                 Graph.OnDragOffer(e, true);
             } else {
-
-                // Check if this is a node drag event 
-                if (!IsNodeDrag(e) || !IsMovable()) {
+                // Check if this is a node drag event, additionaly check if the current dragged element is an edge
+                if (!IsNodeDrag(e) || !IsMovable() || e.GetDraggedElement() is BaseEdge) {
                     return;
                 }
 

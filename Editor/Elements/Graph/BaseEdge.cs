@@ -145,7 +145,7 @@ namespace GraphViewBase {
                 if (current is GraphView.Layer) { break; }
 
                 // if we encounter our node ignore it but continue in the case there are nodes inside nodes
-                if (current != port.ParentNode) { port.UnregisterCallback<GeometryChangedEvent>(OnGeometryChanged); }
+                if (current != port.ParentNode) { current.UnregisterCallback<GeometryChangedEvent>(OnGeometryChanged); }
 
                 current = current.hierarchy.parent;
             }
@@ -232,9 +232,15 @@ namespace GraphViewBase {
         #endregion
 
         #region Drag Events
+        
         [EventInterest(typeof(DragOfferEvent))]
+#if UNITY_6000_0_OR_NEWER
+        protected override void HandleEventBubbleUp(EventBase evt) {
+            base.HandleEventBubbleUp(evt);
+#else
         protected override void ExecuteDefaultActionAtTarget(EventBase evt) {
             base.ExecuteDefaultActionAtTarget(evt);
+#endif
             if (evt.eventTypeId == DragOfferEvent.TypeId()) { OnDragOffer((DragOfferEvent)evt); }
         }
 
@@ -260,6 +266,6 @@ namespace GraphViewBase {
             if (!e.modifiers.IsNone()) { return false; }
             return true;
         }
-        #endregion
+#endregion
     }
 }

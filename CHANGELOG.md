@@ -59,3 +59,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.1.3] - 2023-11-24
 ### Fixed
 - Fixed invalid cast errors when using port lists and CommentGroupNodes (fixes: https://github.com/Gentlymad-Studios/NewGraph/issues/33), thanks to https://github.com/leissler for the pull request!
+
+## [0.1.4] - 2025-01-23
+### Changed
+- disabled MarkDirtyRepaint call in OnViewportChangedEvent for better performance
+
+## [0.1.5] - 2025-01-23
+### Fixed
+- making graph view base ready for unity 6, changing event method signatures (https://docs.unity3d.com/Manual/UIE-Events-Dispatching.html)
+
+## [0.1.6] - 2025-01-31
+### Changed
+- disable ResetLayer for an Element that was removed
+
+## [0.1.7] - 2025-02-07
+### Fixed
+- dragofferevent for node will now check if there is already an edge dragged (unity 6000 issue)
